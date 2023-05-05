@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:platform_converter_app/controllers/providers/add_chat_provider.dart';
 import 'package:platform_converter_app/controllers/providers/app_provider.dart';
 import 'package:platform_converter_app/views/components/AddChat.dart';
 import 'package:platform_converter_app/views/components/CallsPage.dart';
@@ -18,38 +19,47 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Platform Converter"),
-          actions: [
-            Switch(
-              value: Provider.of<AppProvider>(context).appModel.isIos,
-              onChanged: (val) {
-                Provider.of<AppProvider>(context, listen: false).switchUi();
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Platform Converter"),
+            actions: [
+              Switch(
+                value: Provider.of<AppProvider>(context).appModel.isIos,
+                onChanged: (val) {
+                  Provider.of<AppProvider>(context, listen: false).switchUi();
+                },
+              ),
+            ],
+            bottom: TabBar(
+              physics: const BouncingScrollPhysics(),
+              labelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              onTap: (val) {
+                Provider.of<AddChatProvider>(context, listen: false)
+                    .clearValues();
               },
+              tabs: const [
+                Icon(Icons.person_add_alt),
+                Text("CHATS"),
+                Text("CALLS"),
+                Text("SETTINGS"),
+              ],
             ),
-          ],
-          bottom: const TabBar(
-            physics: BouncingScrollPhysics(),
-            labelStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-            tabs: [
-              Icon(Icons.person_add_alt),
-              Text("CHATS"),
-              Text("CALLS"),
-              Text("SETTINGS"),
+          ),
+          body: const TabBarView(
+            children: [
+              AddChat(),
+              ChatPage(),
+              CallsPage(),
+              SettingsPage(),
             ],
           ),
-        ),
-        body: const TabBarView(
-          children: [
-            AddChat(),
-            ChatPage(),
-            CallsPage(),
-            SettingsPage(),
-          ],
         ),
       ),
     );

@@ -144,7 +144,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   CupertinoListTile(
                     leading: const Icon(CupertinoIcons.person),

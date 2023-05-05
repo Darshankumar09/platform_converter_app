@@ -20,6 +20,14 @@ class AddChatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  editImage(int index) async {
+    ImagePicker pick = ImagePicker();
+    XFile? img = await pick.pickImage(source: ImageSource.camera);
+
+    addChatModel.img = File(img!.path);
+    notifyListeners();
+  }
+
   pickDate() async {
     if (addChatModel.tempDate != null &&
         addChatModel.tempDate != addChatModel.pickDate) {
@@ -62,6 +70,71 @@ class AddChatProvider extends ChangeNotifier {
     addChatModel.pickDate = null;
     addChatModel.pickTime = null;
 
+    notifyListeners();
+  }
+
+  editChat(int index) async {
+    if (addChatModel.img != null) {
+      addChatModel.image[index] = addChatModel.img!.path;
+    }
+    addChatModel.fullName[index] = Variables.editName!;
+    addChatModel.phoneNumber[index] = Variables.editPhone!;
+    addChatModel.chatConversation[index] = Variables.editChat!;
+
+    if (addChatModel.pickDate != null) {
+      addChatModel.date[index] =
+          ("${addChatModel.pickDate?.day}/${addChatModel.pickDate?.month}/${addChatModel.pickDate?.year}");
+    }
+
+    if (addChatModel.pickTime != null) {
+      addChatModel.time[index] =
+          ("${addChatModel.pickTime?.hour}:${addChatModel.pickTime?.minute}");
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('image', addChatModel.image);
+    prefs.setStringList('fullName', addChatModel.fullName);
+    prefs.setStringList('phoneNumber', addChatModel.phoneNumber);
+    prefs.setStringList('chatConversation', addChatModel.chatConversation);
+    prefs.setStringList('date', addChatModel.date);
+    prefs.setStringList('time', addChatModel.time);
+
+    addChatModel.img = null;
+    Variables.editName = null;
+    Variables.editPhone = null;
+    Variables.editChat = null;
+    addChatModel.pickDate = null;
+    addChatModel.pickTime = null;
+
+    notifyListeners();
+  }
+
+  deleteChat(int index) async {
+    addChatModel.fullName.remove(addChatModel.fullName[index]);
+    addChatModel.phoneNumber.remove(addChatModel.phoneNumber[index]);
+    addChatModel.chatConversation.remove(addChatModel.chatConversation[index]);
+    addChatModel.date.remove(addChatModel.date[index]);
+    addChatModel.time.remove(addChatModel.time[index]);
+    if (Variables.index > 0) {
+      Variables.index--;
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setStringList('image', addChatModel.image);
+    prefs.setStringList('fullName', addChatModel.fullName);
+    prefs.setStringList('phoneNumber', addChatModel.phoneNumber);
+    prefs.setStringList('chatConversation', addChatModel.chatConversation);
+    prefs.setStringList('date', addChatModel.date);
+    prefs.setStringList('time', addChatModel.time);
+
+    notifyListeners();
+  }
+
+  clearValues() {
+    addChatModel.img = null;
+    addChatModel.pickDate = null;
+    addChatModel.pickTime = null;
     notifyListeners();
   }
 }

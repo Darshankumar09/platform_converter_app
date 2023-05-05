@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_converter_app/controllers/providers/add_chat_provider.dart';
 import 'package:platform_converter_app/controllers/providers/app_provider.dart';
+import 'package:platform_converter_app/controllers/providers/theme_provider.dart';
 import 'package:platform_converter_app/models/variables.dart';
 import 'package:provider/provider.dart';
 
@@ -85,6 +86,7 @@ class _AddChatState extends State<AddChat> {
                     TextFormField(
                       controller: Variables.phone,
                       keyboardType: TextInputType.number,
+                      maxLength: 10,
                       validator: (val) {
                         if (val!.isEmpty) {
                           return "Enter Phone Number";
@@ -224,7 +226,7 @@ class _AddChatState extends State<AddChat> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     (Provider.of<AddChatProvider>(context).addChatModel.img !=
                             null)
@@ -262,7 +264,8 @@ class _AddChatState extends State<AddChat> {
                       height: 20,
                     ),
                     Transform.scale(
-                      scale: 1.08,
+                      scaleX: 1.01,
+                      scaleY: 1.15,
                       child: CupertinoTextFormFieldRow(
                         controller: Variables.name,
                         validator: (val) {
@@ -280,13 +283,15 @@ class _AddChatState extends State<AddChat> {
                         prefix: const Icon(
                           CupertinoIcons.person,
                         ),
+                        padding: const EdgeInsets.only(),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Transform.scale(
-                      scale: 1.08,
+                      scaleX: 1.01,
+                      scaleY: 1.15,
                       child: CupertinoTextFormFieldRow(
                         controller: Variables.phone,
                         validator: (val) {
@@ -299,6 +304,7 @@ class _AddChatState extends State<AddChat> {
                           }
                         },
                         keyboardType: TextInputType.number,
+                        maxLength: 10,
                         decoration: BoxDecoration(
                           border: Border.all(),
                           borderRadius: BorderRadius.circular(4),
@@ -307,13 +313,15 @@ class _AddChatState extends State<AddChat> {
                         prefix: const Icon(
                           CupertinoIcons.phone,
                         ),
+                        padding: const EdgeInsets.only(),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Transform.scale(
-                      scale: 1.08,
+                      scaleX: 1.01,
+                      scaleY: 1.15,
                       child: CupertinoTextFormFieldRow(
                         controller: Variables.chat,
                         validator: (val) {
@@ -331,6 +339,7 @@ class _AddChatState extends State<AddChat> {
                         prefix: const Icon(
                           CupertinoIcons.chat_bubble_text,
                         ),
+                        padding: const EdgeInsets.only(),
                       ),
                     ),
                     const SizedBox(
@@ -342,7 +351,11 @@ class _AddChatState extends State<AddChat> {
                           context: context,
                           builder: (context) => Container(
                             height: 350,
-                            color: CupertinoColors.white,
+                            color: (Provider.of<ThemeProvider>(context)
+                                    .themeModel
+                                    .isDark)
+                                ? CupertinoColors.darkBackgroundGray
+                                : CupertinoColors.white,
                             child: CupertinoDatePicker(
                               mode: CupertinoDatePickerMode.date,
                               initialDateTime: DateTime.now(),
@@ -389,7 +402,11 @@ class _AddChatState extends State<AddChat> {
                           context: context,
                           builder: (context) => Container(
                             height: 350,
-                            color: Colors.white,
+                            color: (Provider.of<ThemeProvider>(context)
+                                    .themeModel
+                                    .isDark)
+                                ? CupertinoColors.darkBackgroundGray
+                                : CupertinoColors.white,
                             child: CupertinoDatePicker(
                               mode: CupertinoDatePickerMode.time,
                               initialDateTime: DateTime.now(),
