@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
             bottom: TabBar(
               physics: const BouncingScrollPhysics(),
               labelStyle: const TextStyle(
-                fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
               onTap: (val) {

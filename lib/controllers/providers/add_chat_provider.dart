@@ -132,6 +132,13 @@ class AddChatProvider extends ChangeNotifier {
   }
 
   clearValues() {
+    Variables.name.clear();
+    Variables.phone.clear();
+    Variables.chat.clear();
+    Variables.editName = null;
+    Variables.editPhone = null;
+    Variables.editChat = null;
+    Variables.index = 0;
     addChatModel.img = null;
     addChatModel.pickDate = null;
     addChatModel.pickTime = null;
